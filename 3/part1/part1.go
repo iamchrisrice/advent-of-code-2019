@@ -16,8 +16,7 @@ type Position struct {
 }
 
 type Wire struct {
-	id           int
-	instructions string
+	id int
 }
 
 type Wires = map[Wire]bool
@@ -28,9 +27,9 @@ func instructionSlice(instructions string) []string {
 	return strings.Split(instructions, ",")
 }
 
-func wire(wire Wire, grid Grid) {
+func wire(wire Wire, instructions string, grid Grid) {
 	var pos = Position{0, 0}
-	for _, instruction := range instructionSlice(wire.instructions) {
+	for _, instruction := range instructionSlice(instructions) {
 		direction := instruction[0:1]
 		distance, _ := strconv.Atoi(instruction[1:])
 		switch direction {
@@ -127,8 +126,8 @@ func main() {
 
 	for scanner.Scan() {
 		id++
-		w := Wire{id, scanner.Text()}
-		wire(w, grid)
+		w := Wire{id}
+		wire(w, scanner.Text(), grid)
 	}
 
 	fmt.Println("Manhattan distance:", getShortestIntersectionDistance(grid))
