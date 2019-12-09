@@ -102,7 +102,7 @@ func lowestInt(sli []int) int {
 	return shortest
 }
 
-func getShortestStepsToPosition(grid Grid, position Position) int {
+func getShortestTotalStepsToPosition(grid Grid, position Position) int {
 	var steps int
 	for _, y := range grid[position] {
 		steps = steps + lowestInt(y)
@@ -113,7 +113,7 @@ func getShortestStepsToPosition(grid Grid, position Position) int {
 func getShortestStepsToAnyIntersection(grid Grid) int {
 	var stepsToIntersections []int
 	for _, y := range findIntersections(grid) {
-		stepsToIntersections = append(stepsToIntersections, getShortestStepsToPosition(grid, y))
+		stepsToIntersections = append(stepsToIntersections, getShortestTotalStepsToPosition(grid, y))
 	}
 	return lowestInt(stepsToIntersections)
 }
