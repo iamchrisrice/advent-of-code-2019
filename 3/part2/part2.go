@@ -56,7 +56,6 @@ func wire(wire Wire, instructions string, grid Grid) {
 
 func findIntersections(grid Grid) []Position {
 	var intersections []Position
-
 	for pos, wires := range grid {
 		if len(wires) > 1 {
 			intersections = append(intersections, pos)

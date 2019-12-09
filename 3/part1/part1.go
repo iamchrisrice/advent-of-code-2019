@@ -55,7 +55,6 @@ func wire(wire Wire, instructions string, grid Grid) {
 
 func findIntersections(grid Grid) []Position {
 	var intersections []Position
-
 	for pos, wires := range grid {
 		if len(wires) > 1 {
 			intersections = append(intersections, pos)
@@ -90,7 +89,6 @@ func main() {
 	const filename = "../input.txt"
 
 	var grid = make(Grid)
-
 	var id = 0
 
 	file, err := os.Open(filename)
