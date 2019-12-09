@@ -32,47 +32,23 @@ func wire(wire Wire, instructions string, grid Grid) {
 	for _, instruction := range instructionSlice(instructions) {
 		direction := instruction[0:1]
 		distance, _ := strconv.Atoi(instruction[1:])
-		switch direction {
-		case "U":
-			var next Position
-			for i := 0; i < distance; i++ {
+		var next Position
+		for i := 0; i < distance; i++ {
+			switch direction {
+			case "U":
 				next = Position{pos.x, pos.y + 1}
-				if len(grid[next]) == 0 {
-					grid[next] = make(Wires)
-				}
-				grid[next][wire] = true
-				pos = next
-			}
-		case "D":
-			var next Position
-			for i := 0; i < distance; i++ {
+			case "D":
 				next = Position{pos.x, pos.y - 1}
-				if len(grid[next]) == 0 {
-					grid[next] = make(Wires)
-				}
-				grid[next][wire] = true
-				pos = next
-			}
-		case "R":
-			var next Position
-			for i := 0; i < distance; i++ {
+			case "R":
 				next = Position{pos.x + 1, pos.y}
-				if len(grid[next]) == 0 {
-					grid[next] = make(Wires)
-				}
-				grid[next][wire] = true
-				pos = next
-			}
-		case "L":
-			var next Position
-			for i := 0; i < distance; i++ {
+			case "L":
 				next = Position{pos.x - 1, pos.y}
-				if len(grid[next]) == 0 {
-					grid[next] = make(Wires)
-				}
-				grid[next][wire] = true
-				pos = next
 			}
+			if len(grid[next]) == 0 {
+				grid[next] = make(Wires)
+			}
+			grid[next][wire] = true
+			pos = next
 		}
 	}
 }
