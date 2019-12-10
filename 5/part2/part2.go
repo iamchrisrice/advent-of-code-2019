@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+type Program = []int
+
 type Instruction struct {
 	opcode int
 	flags  Flags
@@ -16,13 +18,13 @@ type Flags = map[int]bool
 
 type Params = map[int]int
 
-func toIntSlice(input string) []int {
-	var sli []int
+func toProgram(input string) Program {
+	var program []int
 	for _, number := range strings.Split(input, ",") {
 		integer, _ := strconv.Atoi(number)
-		sli = append(sli, integer)
+		program = append(program, integer)
 	}
-	return sli
+	return program
 }
 
 func toInstruction(input int) Instruction {
@@ -37,7 +39,7 @@ func toInstruction(input int) Instruction {
 	return Instruction{opcode, Flags{1: p1mode == 1, 2: p2mode == 1, 3: p3mode == 1}}
 }
 
-func getParams(paramCount int, program []int, position *int, flags Flags) Params {
+func getParams(paramCount int, program Program, position *int, flags Flags) Params {
 	params := make(Params)
 	for count := 1; count <= paramCount; count++ {
 		if flags[count] {
@@ -77,21 +79,21 @@ func emulate(program []int) {
 	}
 }
 
-func add(program []int, position *int, flags Flags) {
+func add(program Program, position *int, flags Flags) {
 	flags[3] = false
 	params := getParams(3, program, position, flags)
 	program[params[3]] = program[params[1]] + program[params[2]]
 	*position = *position + 4
 }
 
-func multiply(program []int, position *int, flags Flags) {
+func multiply(program Program, position *int, flags Flags) {
 	flags[3] = false
 	params := getParams(3, program, position, flags)
 	program[params[3]] = program[params[1]] * program[params[2]]
 	*position = *position + 4
 }
 
-func input(program []int, position *int, flags Flags) {
+func input(program Program, position *int, flags Flags) {
 	flags[1] = false
 	params := getParams(1, program, position, flags)
 	var i int
@@ -101,13 +103,13 @@ func input(program []int, position *int, flags Flags) {
 	*position = *position + 2
 }
 
-func output(program []int, position *int, flags Flags) {
+func output(program Program, position *int, flags Flags) {
 	params := getParams(1, program, position, flags)
 	fmt.Println(program[params[1]])
 	*position = *position + 2
 }
 
-func jumpIfTrue(program []int, position *int, flags Flags) {
+func jumpIfTrue(program Program, position *int, flags Flags) {
 	params := getParams(2, program, position, flags)
 	if program[params[1]] != 0 {
 		*position = program[params[2]]
@@ -116,7 +118,7 @@ func jumpIfTrue(program []int, position *int, flags Flags) {
 	}
 }
 
-func jumpIfFalse(program []int, position *int, flags Flags) {
+func jumpIfFalse(program Program, position *int, flags Flags) {
 	params := getParams(2, program, position, flags)
 	if program[params[1]] == 0 {
 		*position = program[params[2]]
@@ -125,7 +127,7 @@ func jumpIfFalse(program []int, position *int, flags Flags) {
 	}
 }
 
-func lessThan(program []int, position *int, flags Flags) {
+func lessThan(program Program, position *int, flags Flags) {
 	flags[3] = false
 	params := getParams(3, program, position, flags)
 	if program[params[1]] < program[params[2]] {
@@ -136,7 +138,7 @@ func lessThan(program []int, position *int, flags Flags) {
 	*position = *position + 4
 }
 
-func equals(program []int, position *int, flags Flags) {
+func equals(program Program, position *int, flags Flags) {
 	flags[3] = false
 	params := getParams(3, program, position, flags)
 	if program[params[1]] == program[params[2]] {
@@ -151,6 +153,6 @@ func main() {
 	const filename = "../input.txt"
 	buf, _ := ioutil.ReadFile(filename)
 	input := string(buf)
-	sli := toIntSlice(input)
-	emulate(sli)
+	program := toProgram(input)
+	emulate(program)
 }
