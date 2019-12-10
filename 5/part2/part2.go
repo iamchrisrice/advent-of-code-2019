@@ -149,10 +149,14 @@ func equals(program Program, position *int, flags Flags) {
 	*position = *position + 4
 }
 
-func main() {
-	const filename = "../input.txt"
+func readProgramFromFile(filename string) Program {
 	buf, _ := ioutil.ReadFile(filename)
 	input := string(buf)
-	program := toProgram(input)
+	return toProgram(input)
+}
+
+func main() {
+	const filename = "../input.txt"
+	program := readProgramFromFile(filename)
 	emulate(program)
 }
