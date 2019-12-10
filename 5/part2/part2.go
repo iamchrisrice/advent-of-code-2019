@@ -19,7 +19,7 @@ type Flags = map[int]bool
 type Params = map[int]int
 
 func toProgram(input string) Program {
-	var program []int
+	var program Program
 	for _, number := range strings.Split(input, ",") {
 		integer, _ := strconv.Atoi(number)
 		program = append(program, integer)
