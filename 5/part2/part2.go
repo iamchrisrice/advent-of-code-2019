@@ -96,11 +96,15 @@ func multiply(program Program, position *int, flags Flags) {
 func input(program Program, position *int, flags Flags) {
 	flags[1] = false
 	params := getParams(1, program, position, flags)
+	program[params[1]] = getInput()
+	*position = *position + 2
+}
+
+func getInput() int {
 	var i int
 	fmt.Print("> ")
 	fmt.Scan(&i)
-	program[params[1]] = i
-	*position = *position + 2
+	return i
 }
 
 func output(program Program, position *int, flags Flags) {
